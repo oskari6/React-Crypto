@@ -1,9 +1,22 @@
-.custom-container{
-    display: flex;
+.custom-container {
+  display: flex;
   justify-content: center;
   align-items: center;
 }
 
-img{
-    max-width: 300px;
+.image-container {
+  max-height: "500px";
+  width: "100%";
+  display: "flex";
+  justify-content: "center";
+  align-items: "center";
+  position: "relative";
+  overflow: hidden;
+}
+
+.image-container img {
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
 }
