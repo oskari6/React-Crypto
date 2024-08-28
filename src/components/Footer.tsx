@@ -39,12 +39,14 @@ export default function Footer() {
           </div>
           <div className="footer-contact">
             <h3>Contact Us</h3>
-            <p>Email: oskarisulkakoski@gmail.com</p>
-            <p>Phone: (040) 5922219</p>
+            <ul>
+              <li>Email: oskarisulkakoski@gmail.com</li>
+              <li>Phone: (040) 5922219</li>
+            </ul>
           </div>
         </div>
         <div className="footer-bottom">
-          <p>© 2024 Your Company Name. All rights reserved.</p>
+          <p>© [2024 Company Name]. All rights reserved.</p>
         </div>
       </footer>
     </>

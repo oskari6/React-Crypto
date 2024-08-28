@@ -1,17 +1,14 @@
 .footer {
-  background-color: #ababab;
-  color: #000000;
-  padding: 15px 0;
-  height: 200px;
-  position:relative;
-  width: 100%;
+  background-color: #e2e2e2;
+  padding: 20px;
+  height: 300px;
+  position: relative;
 }
 
 .footer-container {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -38,7 +35,7 @@
 }
 
 .footer-links ul li a {
-  color: #2b00ff;
+  color: #8178ff;
   text-decoration: none;
 }
 
@@ -56,15 +53,15 @@
   color: #aaa;
 }
 
-.footer-contact p {
-  margin: 5px 0;
-}
-
 .footer-bottom {
-  text-align:center;
+  text-align: center;
   border-top: 1px solid #999999;
 }
 
 footer p {
   margin: 0;
+}
+
+ul {
+  padding-left: 0;
 }

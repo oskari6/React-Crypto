@@ -1,22 +1,44 @@
-.custom-container {
+button {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  outline: none; /* Removes outline on focus */
 }
 
-.image-container {
-  max-height: "500px";
-  width: "100%";
-  display: "flex";
-  justify-content: "center";
-  align-items: "center";
-  position: "relative";
-  overflow: hidden;
+.arrow-left,
+.arrow-right {
+  width: 0;
+  height: 0;
+  border-top: 10px solid transparent;
+  border-bottom: 10px solid transparent;
+  display: inline-block; /* Display inline */
+  cursor: pointer; /* Add pointer cursor */
 }
 
-.image-container img {
-  max-height: 100%;
-  width: auto;
-  height: auto;
-  object-fit: contain;
+.arrow-left {
+  border-right: 20px solid #9e9e9e; /* Left arrow */
+}
+
+.arrow-right {
+  border-left: 20px solid #9e9e9e; /* Right arrow */
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 200px; /* Adjust as needed */
+  margin: 0 auto; /* Center horizontally */
+  height: 10vh; /* Center vertically */
+}
+
+.img-container {
+  height: 710px;
+  display: flex;
+  justify-content: center; /* Horizontally center */
+  align-items: center;
 }

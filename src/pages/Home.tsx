@@ -17,21 +17,23 @@ export default function Home() {
 
   return (
     <div className="main-content">
-      <h1>What does this site do?</h1>
+      <h1>Our crypto models</h1>
       <div style={{ textAlign: "center", marginTop: "20px" }}>
-        <div>
+        <div className="img-container">
           <img
             src={images[currentIndex]}
             alt={`Slide ${currentIndex + 1}`}
             style={{ maxWidth: "500px", maxHeight: "750px", height: "auto" }}
           />
         </div>
-        <div style={{ marginTop: "10px" }}>
-          <button onClick={prevImage} style={{ marginRight: "10px" }}>
-            Previous
-          </button>
-          <button onClick={nextImage}>Next</button>
-        </div>
+      </div>
+      <div className="button-container">
+        <button onClick={prevImage} className="arrow-button">
+          <div className="arrow-left"></div>
+        </button>
+        <button onClick={nextImage} className="arrow-button">
+          <div className="arrow-right"></div>
+        </button>
       </div>
     </div>
   );

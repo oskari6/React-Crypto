@@ -3,17 +3,18 @@ body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: "Roboto Flex", sans-serif;
+  color: #3f3f3f;
 }
 
 h1 {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   display: flex;
   justify-content: center;
 }
 .coingecko-limit {
   font-weight: bold;
   font-size: medium;
-  color: Red;
+  color: rgb(192, 34, 34);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -57,6 +58,7 @@ h1 {
 .main-content {
   padding: 20px;
   margin-bottom: 50px;
+  min-height: 800px;
 }
 .portfolio-container {
   width: 100%;
@@ -67,12 +69,10 @@ h1 {
   align-items: center;
 }
 .outer-wrapper {
-  font-family: verdana;
   display: flex;
   flex-direction: column;
   min-height: calc(100vh - 100px);
   background-color: rgb(212, 211, 211);
-  padding: 20px;
   box-sizing: border-box;
 }
 
@@ -89,4 +89,8 @@ h1 {
 
 .heading-layout {
   margin-top: 100;
+}
+
+li {
+  list-style-type: none;
 }

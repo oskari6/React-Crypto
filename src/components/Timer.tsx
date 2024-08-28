@@ -1,15 +1,25 @@
 import { useEffect, useState } from "react";
 
-export default function Timer() {
+type TimerProps = {
+  onEnd: () => void;
+};
+
+export default function Timer({ onEnd }: TimerProps) {
   const [count, setCount] = useState(60);
 
+  useEffect(() => {
+    if (count === 0) {
+      onEnd();
+      return;
+    }
+  });
   useEffect(() => {
     const intervalId = setInterval(() => {
       setCount((prev) => prev - 1);
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [count, onEnd]);
 
-  return <p>count: {count}</p>;
+  return <p>Time left: {count} seconds</p>;
 }

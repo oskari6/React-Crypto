@@ -36,6 +36,9 @@ export default function CyptoPrices() {
 
   const [data, setData] = useState<ChartData<"line">>();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [timerActive, setTimerActive] = useState(false);
+
   const [options, setOptions] = useState<ChartOptions<"line">>({
     responsive: true,
     plugins: {
@@ -48,7 +51,6 @@ export default function CyptoPrices() {
       },
     },
   });
-  const [requestError, setRequestError] = useState(false);
 
   useEffect(() => {
     const url =
@@ -61,12 +63,11 @@ export default function CyptoPrices() {
       .catch((error) => {
         if (error.status === 429) {
           setLoading(true);
-          console.log("error: too many requests");
+          setTimerActive(true);
         }
-        setRequestError(true);
-        console.log("some other error caught: ", error);
+        setError(true);
       });
-  }, [setRequestError]);
+  }, [setError]);
 
   useEffect(() => {
     if (!selected) return;
@@ -79,7 +80,6 @@ export default function CyptoPrices() {
         }`
       )
       .then((response) => {
-        console.log(response.data);
         setData({
           labels: response.data.prices.map((price: number[]) => {
             return moment
@@ -114,10 +114,18 @@ export default function CyptoPrices() {
         });
       })
       .catch((error) => {
-        setRequestError(true);
-        console.log("Error caught: ", error);
+        if (error.code === "ERR_NETWORK") {
+          setLoading(true);
+          setTimerActive(true);
+        }
+        setError(true);
       });
   }, [selected, range]);
+
+  const handleTimerEnd = () => {
+    setLoading(false);
+    setTimerActive(false);
+  };
 
   return (
     <div className="main-content">
@@ -129,6 +137,7 @@ export default function CyptoPrices() {
             setSelected(c);
           }}
           defaultValue="default"
+          disabled={loading}
         >
           <option value="default">Choose an option</option>
           {cryptos
@@ -145,6 +154,7 @@ export default function CyptoPrices() {
           onChange={(e) => {
             setRange(e.target.value);
           }}
+          disabled={loading}
         >
           <option value="30">30 Days</option>
           <option value="7">7 Days</option>
@@ -161,10 +171,11 @@ export default function CyptoPrices() {
       {loading ? (
         <div className="coingecko-limit">
           <p className="limit">
-            You have sent too many api calls, wait.. and refresh.
+            You have sent too many api calls, wait 60 seconds or try to refresh
+            the page
           </p>
-          <Timer />
-          <button>Refresh</button>
+          {timerActive && <Timer onEnd={handleTimerEnd} />}
+          <button onClick={() => window.location.reload()}>Refresh</button>
         </div>
       ) : null}
     </div>

@@ -5,16 +5,18 @@ import { Chart as ChartJS, Tooltip, Legend, ArcElement } from "chart.js";
 import { Pie } from "react-chartjs-2";
 import type { ChartData } from "chart.js";
 import PortfolioSummary from "../components/PortfolioSummary";
-import CoingeckoLimit from "../components/CoingeckoLimit";
+import Timer from "../components/Timer";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function Portfolio() {
   const [cryptos, setCryptos] = useState<Crypto[] | null>(null); //return array of crypto or null
   const [selected, setSelected] = useState<Crypto[]>([]);
-
   const [data, setData] = useState<ChartData<"pie">>();
-  const [requestError, setRequestError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
+  const [timerActive, setTimerActive] = useState(false);
+
   useEffect(() => {
     const url =
       "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparklines=false";
@@ -24,13 +26,11 @@ export default function Portfolio() {
         setCryptos(response.data);
       })
       .catch((error) => {
-        setRequestError(true);
-        console.log("error caught: ", error);
+        setError(true);
       });
-  }, [setRequestError]);
+  }, [setError]);
 
   useEffect(() => {
-    console.log("SELECTED", selected);
     if (selected.length === 0) return;
     setData({
       labels: selected.map((s) => s.name),
@@ -61,7 +61,6 @@ export default function Portfolio() {
   }, [selected]);
 
   function updateOwned(crypto: Crypto, amount: number): void {
-    console.log("update owned", crypto, amount);
     let temp = [...selected];
     let tempObj = temp.find((c) => c.id === crypto.id);
     if (tempObj) {
@@ -70,9 +69,10 @@ export default function Portfolio() {
     }
   }
 
-  if (requestError) {
-    return <CoingeckoLimit />;
-  }
+  const handleTimerEnd = () => {
+    setLoading(false);
+    setTimerActive(false);
+  };
 
   return (
     <div className="main-content">
@@ -85,6 +85,7 @@ export default function Portfolio() {
               setSelected([...selected, c]);
             }}
             defaultValue="default"
+            disabled={loading}
           >
             <option value="default">Choose an option</option>
             {cryptos
@@ -125,6 +126,16 @@ export default function Portfolio() {
               }) //add all together
           : null}
       </div>
+      {loading ? (
+        <div className="coingecko-limit">
+          <p className="limit">
+            You have sent too many api calls, wait 60 seconds or try to refresh
+            the page
+          </p>
+          {timerActive && <Timer onEnd={handleTimerEnd} />}
+          <button onClick={() => window.location.reload()}>Refresh</button>
+        </div>
+      ) : null}
     </div>
   );
 }
