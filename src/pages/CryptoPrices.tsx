@@ -3,7 +3,7 @@ import "../App.css";
 import axios from "axios";
 import CryptoSummary from "../components/CryptoSummary";
 import type { Crypto } from "../Types";
-import CoingeckoLimit from "../components/CoingeckoLimit";
+import Timer from "../components/Timer";
 
 import {
   Chart as ChartJS,
@@ -32,10 +32,10 @@ ChartJS.register(
 export default function CyptoPrices() {
   const [cryptos, setCryptos] = useState<Crypto[] | null>(null); //return array of crypto or null
   const [selected, setSelected] = useState<Crypto | null>();
-
   const [range, setRange] = useState<string>("30");
 
   const [data, setData] = useState<ChartData<"line">>();
+  const [loading, setLoading] = useState(false);
   const [options, setOptions] = useState<ChartOptions<"line">>({
     responsive: true,
     plugins: {
@@ -59,8 +59,12 @@ export default function CyptoPrices() {
         setCryptos(response.data);
       })
       .catch((error) => {
+        if (error.status === 429) {
+          setLoading(true);
+          console.log("error: too many requests");
+        }
         setRequestError(true);
-        console.log("error caught: ", error);
+        console.log("some other error caught: ", error);
       });
   }, [setRequestError]);
 
@@ -115,13 +119,9 @@ export default function CyptoPrices() {
       });
   }, [selected, range]);
 
-  if (requestError) {
-    return <CoingeckoLimit />;
-  }
-
   return (
     <div className="main-content">
-      <h1>Cryptoprices 💸</h1>
+      <h1>Cryptoprices</h1>
       <div className="chart-container">
         <select
           onChange={(e) => {
@@ -158,6 +158,15 @@ export default function CyptoPrices() {
           </div>
         ) : null}
       </div>
+      {loading ? (
+        <div className="coingecko-limit">
+          <p className="limit">
+            You have sent too many api calls, wait.. and refresh.
+          </p>
+          <Timer />
+          <button>Refresh</button>
+        </div>
+      ) : null}
     </div>
   );
 }
