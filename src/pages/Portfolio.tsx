@@ -76,7 +76,6 @@ export default function Portfolio() {
 
   return (
     <div className="main-content">
-      <h1>Cryptocurrency Portfolio</h1>
       <div className="portfolio-container">
         <div>
           <select

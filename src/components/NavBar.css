@@ -1,6 +1,7 @@
 .navbar {
-  padding: 20px;
   background-color: #e2e2e2;
+  padding-top: 20px;
+  padding-bottom: 20px;
 }
 
 .nav-links {
@@ -8,9 +9,10 @@
   align-items: center;
   justify-content: center;
   background: #fff;
-  padding: 20px 15px;
+  padding: 20px;
   border-radius: 12px;
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
 }
 .nav-links li {
   list-style: none;
